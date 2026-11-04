@@ -1,0 +1,29 @@
+# Python and local environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+
+# Credentials and local service configuration
+*service-account*.json
+*firebase-adminsdk*.json
+.streamlit/secrets.toml
+
+# Local logs and generated firmware files
+logs/
+*.log
+Debug/
+Release/
+*.elf
+*.hex
+*.bin
+
+# Editor and operating system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+~$*.docx
