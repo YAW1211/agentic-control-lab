@@ -2,13 +2,36 @@
 
 ### A natural-language interface for STM32 monitoring and control
 
-Agentic Control Lab explores how a large language model can help users interact with a small physical system through chat. The proposed prototype reads temperature and controls an LED or a low-voltage fan using an STM32 controller.
+I am exploring how users can monitor and control an STM32 system through plain-English requests. The proposed prototype combines temperature monitoring with LED and low-voltage fan control. My focus is on connecting a clear user interface to predictable hardware behavior.
 
 **Status:** Proposal and system design. Firmware, application code, and hardware test results are planned and are not yet included.
 
 **Author:** Ku Kwang Yaw  
 **Academic project:** FYP-126  
 **Formal title:** Development of an Agentic LLM Interface for Monitoring and Control of STM32-Based Cyber-Physical Systems
+
+## Project work and design decisions
+
+The current phase covers project scope, system architecture, component planning, and evaluation design. The project documents set out the following work:
+
+- Define three objectives covering the interface, STM32 integration, and evaluation.
+- Map the full path from a user request to a controller acknowledgement.
+- Separate the computer's language-processing tasks from the STM32's hardware-control tasks.
+- Plan command validation, timeout handling, and a manual stop.
+- Define test cases for normal operation, unclear requests, and connection failures.
+
+## Engineering challenges and design responses
+
+These are problems considered during system design. The responses below are proposed solutions to be checked during implementation and hardware testing.
+
+| Problem | Design response | What still needs to be checked |
+| --- | --- | --- |
+| A natural-language request can be unclear or contain an unsupported action. | Restrict the interface to predefined commands, validate parameters, and ask for clarification when needed. | Test unclear requests and confirm that no unintended action occurs. |
+| Language-model response times can vary. | Run the LLM on the computer and keep timing-sensitive control in the STM32 firmware. | Measure response time and check local control behavior. |
+| Sending a command does not prove that the hardware executed it. | Require an STM32 acknowledgement before reporting success. | Compare controller replies with observed LED and fan states. |
+| USB communication may fail during a request. | Use bounded timeouts, report connection errors, and turn the fan off after the local control-link timeout. | Disconnect USB during tests and observe the output state. |
+| Conditional control depends on a valid sensor reading. | Read temperature before deciding whether to switch the fan; reject missing or stale readings. | Test readings below, equal to, and above the threshold. |
+| A fan needs a suitable electrical driver and power supply. | Include a protected driver circuit and a matched low-voltage supply. | Verify wiring, component ratings, and manual-stop behavior. |
 
 ## Objectives
 
